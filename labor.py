@@ -21,17 +21,23 @@ def str_in_millions(number):
 # from percentage string to float.
 df1 = pd.read_excel('LAUS_1990-2016.xlsx', index_col=0, thousands=',', converters={'Unemployment Rate':p2f})
 df2 = pd.read_excel('LAUS_monthly_1990-2016.xlsx', index_col=0, thousands=',', converters={'Unemployment Rate':p2f})
+df3 = pd.read_excel('OED_2011-2016.xlsx', index_col=0)
 
-def plot_laborforcedata(df2):
+def plot_OED(df):
+    print(df.head())
+
+
+
+def plot_laborforcedata(df):
     # Set x axis as date index from imported monthly report, and convert values to datetime
-    x = df2.index
+    x = df.index
     x = list(map(pd.to_datetime, x))
     # Set three y values, and convert population strings to int from monthly data
-    y1 = df2['Labor Force']
+    y1 = df['Labor Force']
     y1 = pd.to_numeric(y1, errors='ignore')
-    y2 = df2['Employed']
+    y2 = df['Employed']
     y2 = pd.to_numeric(y2, errors='ignore')
-    y3 = df2['Unemployment Rate']
+    y3 = df['Unemployment Rate']
 
     # Set up matplotlib figure and axes
     fig, ax1 = plt.subplots()
@@ -67,3 +73,4 @@ def plot_laborforcedata(df2):
     # plt.legend()
     plt.show()
 
+plot_OED(df3)
