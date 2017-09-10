@@ -5,15 +5,16 @@ from datetime import timedelta
 import matplotlib.pyplot as plt
 import matplotlib as mpl
 
+# Make a float from a percentage string
 def p2f(x):
     return float(x.strip('%'))/100
-
+# Loop through spines in an axis and set to invisible
 def make_patch_spines_invisible(ax):
     ax.set_frame_on(True)
     ax.patch.set_visible(False)
     for sp in ax.spines.values():
         sp.set_visible(False)
-
+# Returns a string of X.XXM for a float in the millions.
 def str_in_millions(number):
     reduced = number/1000000
     return (str(reduced)+'M')
@@ -22,12 +23,11 @@ def str_in_millions(number):
 df1 = pd.read_excel('LAUS_1990-2016.xlsx', index_col=0, thousands=',', converters={'Unemployment Rate':p2f})
 df2 = pd.read_excel('LAUS_monthly_1990-2016.xlsx', index_col=0, thousands=',', converters={'Unemployment Rate':p2f})
 df3 = pd.read_excel('OED_2011-2016.xlsx', index_col=0)
-
+# Function to plot Occupational Employment Data.
 def plot_OED(df):
     print(df.head())
 
-
-
+# Function to plot labor data data over time in CO.
 def plot_laborforcedata(df):
     # Set x axis as date index from imported monthly report, and convert values to datetime
     x = df.index
@@ -68,7 +68,7 @@ def plot_laborforcedata(df):
     ax2.spines['bottom'].set_visible(True)
     ax2.grid(axis='y')
 
-
+    # Show the plot
     fig.tight_layout()
     # plt.legend()
     plt.show()
