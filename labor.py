@@ -3,6 +3,7 @@ import numpy as np
 from datetime import datetime as dt
 from datetime import timedelta
 import matplotlib.pyplot as plt
+import seaborn as sns
 import matplotlib as mpl
 
 def p2f(x):
@@ -21,10 +22,26 @@ def str_in_millions(number):
 # from percentage string to float.
 df1 = pd.read_excel('LAUS_1990-2016.xlsx', index_col=0, thousands=',', converters={'Unemployment Rate':p2f})
 df2 = pd.read_excel('LAUS_monthly_1990-2016.xlsx', index_col=0, thousands=',', converters={'Unemployment Rate':p2f})
-df3 = pd.read_excel('OED_2011-2016.xlsx', index_col=0)
+df3 = pd.read_excel('OED_2011-2016.xlsx', index_col=None, thousands=',')
 
 def plot_OED(df):
-    print(df.head())
+
+    # print(df.head())
+    # Get the years of data as x
+    years = df["Time Period"].unique()
+    # Get list of categorical occupations
+    cats = df["Occupation"].unique()
+    # Find number employed in each occupation each year
+    employed = []
+    for year in years:
+        for cat in cats:
+            row = df[(df["Time Period"] == year) & (df["Occupation"] == cat)]
+            numemployed = row["Employment"]
+            employed.append({'Year':year, 'Occ':cat, 'Employed':numemployed})
+    plt.figure()
+    sns.lmplot(x='Time Period', y='Employment', data=df, col='Occupation', sharex=True, sharey=True)
+    plt.show()
+
 
 
 
